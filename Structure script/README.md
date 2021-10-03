@@ -3,7 +3,7 @@
 ## What does this script?
 It creates files and directories from a JSON file.
 
-**Usually the structure should be like this:**
+**Usually the structure of the JSON should be like this:**
 ```
 {"dir1" : 
         {"dir2": {
