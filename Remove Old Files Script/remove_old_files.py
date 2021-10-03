@@ -16,7 +16,7 @@ def check_path_existence(path:str)->bool:
         return True
     return False
 
-def format_time(time:float) -> str():
+def format_time(time:float) -> str:
     '''
     Returns the date in a readable format.
 

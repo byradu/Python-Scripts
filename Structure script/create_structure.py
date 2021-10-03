@@ -1,21 +1,29 @@
-import json
 import os
-import sys
+import json
 
-
-
-def get_input_file(name):
+def get_input_file(name:str)->str:
+    '''
+    Loads the structure from the file.
+    '''
     try:
         with open(name) as f:
             content = json.load(f)
     except FileNotFoundError as e:
-            content = e
-    return content
+            print(str(e))
+            return ''
+    else:
+        return content
 
-def check_input_path(name):
+def check_input_path(name:str)->bool:
+    '''
+    Checks if user path exists.
+    '''
     return os.path.exists(name)
 
-def create_directories(directory_path, structure):
+def create_directories(directory_path:str, structure:str)->None:
+    '''
+    Creates files & directories recursively.
+    '''
     os.chdir(directory_path)
     for key,value in structure.items():
         if type(value) == dict:
@@ -31,5 +39,19 @@ def create_directories(directory_path, structure):
     os.chdir('..')
 
 if __name__ == '__main__':
-    if check_input_path('/home/radu/Documents/algo1'):
-        json_content = get_input_file(name)
+    while True:
+        file_path = input('Insert the path to the file structure -> ')
+        if check_input_path(file_path):
+            json_content = get_input_file(file_path)
+            break
+        else: 
+            print('Check your path and try again.')
+
+    while True:
+        target_directory = input('Path to target directory -> ')
+        if check_input_path(target_directory):
+            break
+        else:
+            print('Check your path and try again.')
+
+    create_directories(target_directory,json_content)
