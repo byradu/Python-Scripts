@@ -15,3 +15,6 @@ It creates files and directories from a JSON file.
         "file4": "content4" 
 }
 ```
+
+## A small demo
+https://user-images.githubusercontent.com/44706212/135769020-e6b8a076-6129-498b-9655-fbf3f2b35b7b.mp4
