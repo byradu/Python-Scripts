@@ -5,6 +5,7 @@ ROOT = None
 DIRECTORIES = None
 FILES = None
 DATA = {}
+MAPPED_FILE_NAMES = {}
 
 def check_path_existence(path:str)->bool:
     '''
@@ -107,22 +108,30 @@ def show_results():
     '''
     Displays formated data to user.
     '''
+    global MAPPED_FILE_NAMES
+
     counter = 1
-    for key,value in sorted(DATA.items(),key = lambda element : element[1]['date'])[:9]:
+    for key,value in sorted(DATA.items(),key = lambda element : element[1]['date'])[:10]:
         date = format_time(value["date"])
         print(f'{counter}. {key}:'.ljust(50),f'{value["size"]} {value["unit"]}'.ljust(25),f'accesed: {date}')#aliniem la stanga
+        MAPPED_FILE_NAMES[counter] = key
         counter += 1
 
 def get_entries_to_delete():
     '''
     Get the files user wants to delete, if he wants to delete something.
     '''
-    if input('Do you want to delete something? (yes/no) ->').lower() == 'yes':
-        entries = set(map(int,input('''Insert the file numbers you want to delete.\n(Example: 1 3 4 ) -> ''').split()))
-        begin_to_delete(entries)
-    else:
-        print('Have a great day!')
-        return
+    while True:
+        user_answer = input('Do you want to delete something? (yes/no) -> ').lower()
+        if user_answer == 'yes':
+            entries = set(map(int,input('''\nInsert the file numbers you want to delete.\nExample: 1 3 4 \n -> ''').split()))
+            begin_to_delete(entries)
+            break
+        elif user_answer == 'no':
+            print('Have a great day!')
+            return
+        else:
+            print('Invalid answer. Try again.\n')
 
 
 def begin_to_delete(entries:list):
@@ -130,16 +139,11 @@ def begin_to_delete(entries:list):
     Begins to delete the entries that user provides.
     '''
     for entry in entries:
-        counter = 1
-        for key,value in sorted(DATA.items(),key = lambda element : element[1]['date'])[:9]:
-            if counter < 10:
-                if counter == entry:
-                    if os.path.isfile(os.path.join(ROOT,key)):
-                        delete_file(key,ROOT)
-                    elif os.path.isdir(os.path.join(ROOT,key)):
-                        delete_directory(key)
-                else:
-                    counter +=1
+        if os.path.isfile(os.path.join(ROOT,MAPPED_FILE_NAMES[entry])):
+            delete_file(MAPPED_FILE_NAMES[entry],ROOT)
+        elif os.path.isdir(os.path.join(ROOT,MAPPED_FILE_NAMES[entry])):
+            delete_directory(MAPPED_FILE_NAMES[entry])
+        
     print('Everything was successfully deleted.')
     
 
