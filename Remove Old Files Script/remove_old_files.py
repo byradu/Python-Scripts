@@ -20,11 +20,10 @@ def check_path_existence(path:str)->bool:
 def format_time(time:float) -> str:
     '''
     Returns the date in a readable format.
-
     '''
     return datetime.datetime.fromtimestamp(time).strftime('%d-%B-%y %H:%M')
 
-def get_size_and_unit(size:int) -> tuple() :
+def get_size_and_unit(size:int) -> tuple :
     '''
     This function provides the size of a file in biggest unit available.
     Example: get_size_in_unit(1024) -> (1,'KB')
@@ -49,13 +48,13 @@ def get_size_and_unit(size:int) -> tuple() :
         biggest_size = size/(1024*1024*1024*1024)
     return (biggest_size,unit)
 
-def get_data(path:str)->tuple():
+def get_data(path:str)->tuple:
     '''
     It returns the root, directories and files from provided path.
     '''
     return tuple(os.walk(path))[0]
 
-def get_information_from_directory(path:str)->tuple():
+def get_information_from_directory(path:str)->tuple:
     '''
     Computes the size of the directory and returns: directory_size, unit_size, last_date_modified.
     '''
@@ -71,7 +70,7 @@ def get_information_from_directory(path:str)->tuple():
     
     return (directory_name,directory_size,last_time_accessed)
 
-def get_information_from_files(files:list,path:str)->tuple():
+def get_information_from_files(files:list,path:str)->tuple:
     '''
     Computes the size of the files and returns:
     file_size, unit_size, last_date_modified for each file in directory.
@@ -92,7 +91,7 @@ def get_information_from_files(files:list,path:str)->tuple():
 
     return (file_names,sizes,file_dates)
 
-def format_data(names:list,sizes:list,dates:list) :
+def format_data(names:list,sizes:list,dates:list) -> None:
     '''
     Formats all the necesary data and saves it in a global dictionary.
     '''
@@ -104,9 +103,10 @@ def format_data(names:list,sizes:list,dates:list) :
                         'date':date
                      }
 
-def show_results():
+def show_results() -> None:
     '''
     Displays formated data to user.
+    Maps the files to the counter.
     '''
     global MAPPED_FILE_NAMES
 
@@ -117,7 +117,7 @@ def show_results():
         MAPPED_FILE_NAMES[counter] = key
         counter += 1
 
-def get_entries_to_delete():
+def get_entries_to_delete() -> None:
     '''
     Get the files user wants to delete, if he wants to delete something.
     '''
@@ -134,7 +134,7 @@ def get_entries_to_delete():
             print('Invalid answer. Try again.\n')
 
 
-def begin_to_delete(entries:list):
+def begin_to_delete(entries:list) -> None:
     '''
     Begins to delete the entries that user provides.
     '''
@@ -147,7 +147,7 @@ def begin_to_delete(entries:list):
     print('Everything was successfully deleted.')
     
 
-def delete_file(filename:str,path:str):
+def delete_file(filename:str,path:str) -> None:
     '''
     It will try to delete the file. If not will print an error.
     '''
@@ -156,7 +156,7 @@ def delete_file(filename:str,path:str):
     except Exception as e:
         print(str(e), f"error deleting file {filename}")
 
-def delete_directory(filename:str):
+def delete_directory(filename:str) -> None:
     '''
     Since the function built to remove directories can't do that without
     an empty directory, we have to delete every file inside that directory.
